@@ -29,6 +29,21 @@ const get_all_rides_by_radius = async (req, res) => {
     res.json({error: false, data: {rides} })
 }
 
+const get_all_rides_by_radius_to_destination = async (req, res) => {
+    let {radius, coordinates, destination} = req.body
+    radius = radius || 5
+    let rides = await Ride_By.find({
+        current_location_geo: {
+            $geoWithin: {
+                $centerSphere: [coordinates, radius / 6371]
+            }
+        },
+        is_ride_available: true,
+        destination
+    })
+    res.json({error: false, data: {rides} })
+}
+
 const make_ride_unavailable = async (req, res) => {
     let {id} = req.params
     let ride = await Ride_By.findByIdAndUpdate(id, {is_ride_available: false}, {new: true})
@@ -40,5 +55,6 @@ module.exports = {
     get_ride_by_id,
     add_a_ride_by_user,
     get_all_rides_by_radius,
-    make_ride_unavailable
+    make_ride_unavailable,
+    get_all_rides_by_radius_to_destination
 }
