@@ -14,7 +14,10 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        otp: Number
+        otp: {
+            type: Number,
+            required: true
+        }
     },
     {
         versionKey: false,

@@ -19,4 +19,4 @@ const start = async () => {
 
 start()
 
-app.use('/api/user', user_route)
+app.use('/api/users', user_route)
