@@ -25,9 +25,21 @@ const rideSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
-        is_ride_complete: {
-            type: Boolean,
-            default: false
+        ride_status: {
+            type: String,
+            enum: ['YET_TO_PICK_UP', 'STARTED', 'COMPLETED', 'CANCELED'],
+            default: 'YET_TO_PICK_UP'
+        },
+        current_location_geo: {
+            type: {
+                type: String,
+                enum: ["Point"],
+                required: true
+            },
+            coordinates: {
+                type: [Number],
+                required: true
+            }
         }
     },
     {
