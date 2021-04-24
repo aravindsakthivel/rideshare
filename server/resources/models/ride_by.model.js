@@ -7,6 +7,10 @@ const rideBySchema = new mongoose.Schema(
             ref: 'user',
             required: true
         },
+        is_ride_available: {
+            type: Boolean,
+            default: true
+        },
         current_location: {
             type: String,
             required: true

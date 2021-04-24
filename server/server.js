@@ -8,6 +8,7 @@ app.use(express.json())
 
 const user_route = require('./resources/routes/user.route')
 const car_route = require('./resources/routes/car.route')
+const ride_by_route = require('./resources/routes/ride_by.route')
 
 const PORT = process.env.PORT
 
@@ -22,3 +23,4 @@ start()
 
 app.use('/api/users', user_route)
 app.use('/api/cars', car_route)
+app.use('/api/ride_by', ride_by_route)
