@@ -1,0 +1,13 @@
+.entBlock {
+  position: absolute;
+  left: 35%;
+  top: 10%;
+  width: 30%;
+}
+.entBlock > button:first-child {
+  float: left;
+}
+
+.entBlock > button:last-child {
+  float: right;
+}
