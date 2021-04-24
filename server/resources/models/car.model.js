@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const userSchema = new mongoose.Schema(
+const carSchema = new mongoose.Schema(
     {
         user_id:{
             type: mongoose.Schema.Types.ObjectId,
@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: true
         },
-        car_type: {
+        type: {
             type: String,
             enum: ['MINI', 'SEDAN', 'SUV'],
             required: true
@@ -27,4 +27,4 @@ const userSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model('user', userSchema)
+module.exports = mongoose.model('car', carSchema)

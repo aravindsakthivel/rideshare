@@ -12,6 +12,11 @@ const rideSchema = new mongoose.Schema(
             ref: 'ride_req',
             required: true
         },
+        car_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'car',
+            required: true
+        },
         price: {
             type: Number,
             required: true
