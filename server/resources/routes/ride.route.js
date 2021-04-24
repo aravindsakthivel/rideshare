@@ -5,12 +5,14 @@ const {
     change_ride_status, 
     change_current_location, 
     get_current_ride_by_user, 
-    get_current_ride_taken_by_user 
+    get_current_ride_taken_by_user, 
+    get_ride_by_id
 } = require('../controllers/ride.controller')
 
 const ride_route = require('express').Router()
 
 ride_route.post('/', create_a_ride)
+ride_route.get('/:id', get_ride_by_id)
 ride_route.patch('/status/:id', change_ride_status)
 ride_route.patch('/location/:id', change_current_location)
 ride_route.get('/by/:user_id', get_current_ride_by_user)
