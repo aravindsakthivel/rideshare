@@ -48,4 +48,4 @@ const rideSchema = new mongoose.Schema(
     }
 )
 
-module.exports = mongoose.model('user', rideSchema)
+module.exports = mongoose.model('ride', rideSchema)
