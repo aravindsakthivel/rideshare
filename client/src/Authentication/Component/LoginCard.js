@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Axios from "axios";
 
 const Login = () => {
   const router = useRouter();
@@ -17,18 +18,20 @@ const Login = () => {
     e.preventDefault();
 
     const name = loginData.name;
-    const mobile = loginData.mobile;
+    const mob = loginData.mobile;
+    const data = { name, mob };
+    const config = {
+      method: "post",
+      url: "http://localhost:3333/api/users/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
     try {
-      return router.push("/otp");
-      // const response = await fetch("http://localhost:3000/api/auth/session", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ name, mobile }),
-      // });
-      // console.log(response);
-      // if (response.ok) {
-
-      // }
+      const response = await Axios(config);
+      localStorage.setItem("user", JSON.stringify(response.data.data.user))
+      router.push("/otp")
     } catch (err) {
       alert("Something went wrong");
     }

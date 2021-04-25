@@ -1,21 +1,36 @@
 import React, { useState } from "react";
+import Axios from "axios";
+import { useRouter } from "next/router";
 
-const AddNewVehicle = () => {
+const AddNewVehicle = ({ user }) => {
+  const router = useRouter()
   let preVehicleinfo = {
     type: "",
     name: "",
-    number: "",
-    "r/cBookNumber": "",
-    insuranceNo: "",
-    licenseNo: "",
+    model: "",
   };
   const [vehicleInfo, addvehicleInfo] = useState(preVehicleinfo);
   const handleChange = (e) => {
     addvehicleInfo({ ...vehicleInfo, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicleInfo);
+    let { userId } = user;
+    const config = {
+      method: "post",
+      url: "http://localhost:3333/api/cars",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { ...vehicleInfo, user_id: userId },
+    };
+    try {
+      const response = await Axios(config);
+      localStorage.setItem("selectedCar", JSON.stringify(vehicleInfo));
+      router.push("/offerRide/newTrip");
+    } catch (err) {
+      alert("Something went wrong");
+    }
   };
   return (
     <form onSubmit={handleSubmit}>
@@ -29,9 +44,9 @@ const AddNewVehicle = () => {
             required
           >
             <option>Vehicle Type</option>
-            <option value="mini">Mini</option>
-            <option value="sedan">Sedan</option>
-            <option value="suv">Suv</option>
+            <option value="MINI">Mini</option>
+            <option value="SEDAN">Sedan</option>
+            <option value="SUV">Suv</option>
           </select>
         </div>
         <div className="form-group col-md-3 m-2" onChange={handleChange}>
@@ -48,46 +63,16 @@ const AddNewVehicle = () => {
           <input
             type="text"
             className="form-control"
-            id="licenseNumber"
-            name="number"
-            placeholder="License plate Number"
-            required
-          />
-        </div>
-        <div className="form-group col-md-3 m-2" onChange={handleChange}>
-          <input
-            type="text"
-            className="form-control"
-            id="r/cbooknumber"
-            name="r/cBookNumber"
-            placeholder="R/C Book No"
-            required
-          />
-        </div>
-        <div className="form-group col-md-3 m-2" onChange={handleChange}>
-          <input
-            type="text"
-            className="form-control"
-            id="insuranceNo"
-            name="insuranceNo"
-            placeholder="Insurance No"
-            required
-          />
-        </div>
-        <div className="form-group col-md-3 m-2" onChange={handleChange}>
-          <input
-            type="text"
-            className="form-control"
-            id="licenseNo"
-            name="licenseNo"
-            placeholder="Driving License No"
+            id="model"
+            name="model"
+            placeholder="Year model"
             required
           />
         </div>
       </div>
       <div className="d-flex justify-content-center">
         <button type="submit" className="btn btn-primary">
-          Sign in
+          Add Vehicle
         </button>
       </div>
     </form>

@@ -19,7 +19,7 @@ const PastTravelInfo = () => {
           Offered
         </label>
         <label className="btn btn-secondary">
-          <input type="radio" name="options" id="option2" autocomplete="off" />{" "}
+          <input type="radio" name="options" id="option2" autoComplete="off" />{" "}
           Taken
         </label>
       </div>

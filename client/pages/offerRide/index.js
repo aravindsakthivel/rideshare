@@ -2,8 +2,8 @@ import React from "react";
 import { OfferRide } from "../../src/Offer/OfferRide";
 import { withIronSession } from "next-iron-session";
 
-const Offer = () => {
-  return <OfferRide />;
+const Offer = ({ user }) => {
+  return <OfferRide user={user} />;
 };
 
 export const getServerSideProps = withIronSession(

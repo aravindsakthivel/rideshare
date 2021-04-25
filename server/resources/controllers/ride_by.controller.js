@@ -11,8 +11,14 @@ const get_ride_by_id = async (req, res) => {
 }
 
 const add_a_ride_by_user = async (req, res) => {
-    const ride = await Ride_By.create(req.body)
-    res.json({error: false, data: {ride} })
+    try{
+        const ride = await Ride_By.create(req.body);
+        res.json({ error: false, data: { ride } });
+    }catch (err) {
+        res.status(400).json({
+            err: `${err}`
+        })
+    }
 }
 
 const get_all_rides_by_radius = async (req, res) => {

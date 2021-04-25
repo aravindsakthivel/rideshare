@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Axios from "axios";
 
 const OTP = () => {
   const router = useRouter();
@@ -12,21 +13,43 @@ const OTP = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let userInfo = JSON.parse(localStorage.getItem("user"));
+    let { _id } = userInfo;
+    const config = {
+      method: "patch",
+      url: `http://localhost:3333/api/users/auth/${_id}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: { otp },
+    };
     try {
-      const response = await fetch("http://localhost:3000/api/auth/session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "aravind", mobile: "124530", userId: 15 }),
-      });
-      // after got the data send and get data
-      if (response.ok) {
-        localStorage.setItem("isAuth", true)
+      const response = await Axios(config);
+      localStorage.setItem("user", JSON.stringify(response.data.data.user));
+      const responseByNext = await fetch(
+        "http://localhost:3000/api/auth/session",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: response.data.data.user.name,
+            mobile: response.data.data.user.mob,
+            userId: response.data.data.user._id,
+          }),
+        }
+      );
+      if (responseByNext.ok) {
+        localStorage.setItem(
+          "isAuth",
+          JSON.stringify(response.data.data.user.active)
+        );
         return router.push("/");
       }
     } catch (err) {
-      console.log(err)
-      alert("something went wrong");
+      console.log(err);
+      alert("Something went wrong");
     }
+
   };
   return (
     <>
