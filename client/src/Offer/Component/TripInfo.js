@@ -34,7 +34,7 @@ const TripInfo = () => {
 
   const submitRide = async (e) => {
     e.preventDefault();
-    let userInfo = JSON.stringify(localStorage.getItem("user"));
+    let userInfo = JSON.parse(localStorage.getItem("user"));
     let { _id: user_id } = userInfo;
     const config = {
       method: "post",
