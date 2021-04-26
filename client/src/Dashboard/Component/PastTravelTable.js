@@ -2,21 +2,22 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 
 const PastTravelInfo = () => {
-  const [status, changeStaus] = useState({ state: false, rides: "" });
+  const [rides, setRides] = useState([]);
   const [choosen, changeChoosen] = useState("off");
   useEffect(async () => {
     let userInfo = JSON.parse(localStorage.getItem("user"));
     let { _id: user_id } = userInfo;
     const config = {
       method: "get",
-      url: `http://localhost:3333/api/ride/previous/by/${user_id}`,
+      url: `http://localhost:3333/api/ride_by`,
       headers: {
         "Content-Type": "application/json",
       },
     };
     try {
       const response = await Axios(config);
-      changeStaus({ state: true, rides: response.data.rides });
+      console.log(response.data.data.rides)
+      setRides(response.data.data.rides);
     } catch (err) {
       console.log(err);
       alert("Something went wrong");
@@ -35,7 +36,7 @@ const PastTravelInfo = () => {
     };
     try {
       const response = await Axios(config);
-      changeStaus({ state: true, rides: response.data.rides });
+      changeStaus({ rides: response.data.rides });
     } catch (err) {
       console.log(err);
       alert("Something went wrong");
@@ -96,38 +97,33 @@ const PastTravelInfo = () => {
       </div>
       <div className="card mt-5">
         <div className="card-body">
-          {status.state && (
+          {rides && (
             <table className="table table-hover table-bordered">
               <thead>
                 <tr>
                   <th scope="col">ID</th>
-                  <th scope="col">Date</th>
+                  {/* <th scope="col">Date</th> */}
                   <th scope="col">Whom</th>
                   <th scope="col">From</th>
                   <th scope="col">To</th>
-                  <th scope="col">Distance</th>
                   <th scope="col">Cost</th>
+                  <th scope="col">Take Ride</th>
                 </tr>
               </thead>
               <tbody>
-                {/* <tr>
-                  <th scope="row">1</th>
-                  <td>10/11</td>
-                  <td>Otto</td>
-                  <td>abc</td>
-                  <td>kdr</td>
-                  <td>7km</td>
-                  <td>56</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>jut</td>
-                  <td>ble</td>
-                  <td>5km</td>
-                  <td>45</td>
-                </tr> */}
+                {rides.map(ride =>
+                  <tr>
+                    <th scope="row">{ride._id}</th>
+                    {/* <td>{new Date(ride.createdAt).toLocaleDateString() + "  " + new Date(ride.createdAt).toLocaleTimeString()}</td> */}
+                    <td>{ride.user_id.name}</td>
+                    <td>{ride.current_location}</td>
+                    <td>{ride.destination}</td>
+                    <td>{ride.price_per_km} / km</td>
+                    <td>
+                      <button >TAKE RIDE</button>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           )}

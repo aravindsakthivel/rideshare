@@ -10,6 +10,11 @@ const get_ride_by_id = async (req, res) => {
     res.json({error: false, data: {ride} })
 }
 
+const get_all_active_rides = async (req, res) => {
+    const rides = await Ride_By.find({is_ride_available: true}).populate('user_id').lean().exec()
+    res.json({error: false, data: {rides} })
+}
+
 const add_a_ride_by_user = async (req, res) => {
     try{
         const ride = await Ride_By.create(req.body);
@@ -62,5 +67,6 @@ module.exports = {
     add_a_ride_by_user,
     get_all_rides_by_radius,
     make_ride_unavailable,
-    get_all_rides_by_radius_to_destination
+    get_all_rides_by_radius_to_destination,
+    get_all_active_rides
 }
